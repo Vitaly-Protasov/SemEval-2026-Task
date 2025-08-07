@@ -40,3 +40,29 @@ class XMLModelFinal(BaseModel):
     from_: str | None = None
     to: str | None = None
     intensity: str | None = None
+
+
+class SemEvalFormatQuadrupletFields(StrEnum):
+    ASPECT = "Aspect"
+    OPINION = "Opinion"
+    CATEGORY = "Category"
+    VA = "VA"
+
+
+class SemEvalFormatQuadrupletModel(BaseModel):
+    Aspect: str
+    Opinion: str
+    Category: str
+    VA: str
+
+
+class SemEvalFormatLineFields(StrEnum):
+    ID = "ID"
+    TEXT = "Text"
+    QUADRUPLET = "Quadruplet"
+
+
+class SemEvalFormatLineModel(BaseModel):
+    ID: list[str]
+    Text: list[str]
+    Quadruplet: list[dict[str, str]]
