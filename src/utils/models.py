@@ -10,6 +10,7 @@ class XMLRawFields(StrEnum):
     OPINIONS = "Opinions"
     OPINION = "Opinion"
     REVIEW = "Review"
+    REVIEWS = "Reviews"
     SENTENCES = "sentences/sentence"
     SENTENCES_ELEMENT = "sentences"
     SENTENCE = "sentence"

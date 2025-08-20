@@ -103,7 +103,7 @@ def convert_df_to_xml(df: pd.DataFrame, output_file_path: str) -> None:
 
     df = df.sort_values(by=[temp_column1, temp_column2])
     # Create the root element <Reviews>
-    reviews_root = ET.Element(XMLRawFields.REVIEW)
+    reviews_root = ET.Element(XMLRawFields.REVIEWS)
     # Group by review_id to reconstruct individual reviews
     for rid in df[XMLFieldsFinal.REVIEW_ID].unique():
         review_group = df[df[XMLFieldsFinal.REVIEW_ID] == rid]
