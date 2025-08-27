@@ -37,7 +37,7 @@ def parse_xml_file_to_dataframe(file_path: str) -> pd.DataFrame:
             opinions_element = sentence.find(XMLRawFields.OPINIONS)
             if opinions_element is not None:
                 found_opinions = False
-                for opinion in opinions_element.findall(XMLRawFields.OPINION):
+                for opinion in opinions_element.findall(XMLFieldsFinal.OPINION):
                     found_opinions = True
                     target = opinion.get(XMLFieldsFinal.TARGET)
                     category = opinion.get(XMLFieldsFinal.CATEGORY)
