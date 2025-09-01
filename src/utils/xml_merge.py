@@ -1,8 +1,9 @@
 import statistics
 from collections import Counter
+
 import pandas as pd
 
-from src.utils.models import XMLModelFinal, XMLFieldsFinal
+from src.utils.models import XMLFieldsFinal, XMLModelFinal
 
 
 def intensity_format(num: int | float) -> str:

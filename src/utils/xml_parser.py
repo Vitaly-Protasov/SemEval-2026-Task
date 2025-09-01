@@ -5,19 +5,29 @@ import pandas as pd
 from src.utils.models import XMLFieldsFinal, XMLModelFinal, XMLRawFields
 
 
-def parse_xml_file_to_dataframe(file_path: str) -> pd.DataFrame:
+def parse_xml_file_to_dataframe(
+    file_path: str, encoding: str = "utf-8"
+) -> pd.DataFrame:
     """
     Parses an XML file from the given file path into a pandas DataFrame.
 
     Each row in the DataFrame will represent an opinion,
     and it will include information about the review, sentence, and the opinion itself.
+
+    Args:
+        file_path (str): Path to the XML file.
+        encoding (str): File encoding (default: "utf-8").
     """
+    with open(file_path, "r", encoding=encoding) as f:
+        tree = ET.parse(f)
+    root = tree.getroot()
     try:
-        tree = ET.parse(file_path)
+        with open(file_path, "r", encoding=encoding) as f:
+            tree = ET.parse(f)
         root = tree.getroot()
     except FileNotFoundError:
         print(f"Error: The file '{file_path}' was not found.")
-        return pd.DataFrame()  # Return an empty DataFrame on error
+        return pd.DataFrame()
     except ET.ParseError:
         print(f"Error: Could not parse XML from '{file_path}'. Check file format.")
         return pd.DataFrame()
@@ -28,44 +38,32 @@ def parse_xml_file_to_dataframe(file_path: str) -> pd.DataFrame:
         review_id = review.get(XMLRawFields.RID)
         for sentence in review.findall(XMLRawFields.SENTENCES):
             sentence_id = sentence.get(XMLRawFields.ID)
-            text = (
-                sentence.find(XMLRawFields.TEXT).text
-                if sentence.find(XMLRawFields.TEXT) is not None
-                else ""
-            )
+            text_elem = sentence.find(XMLRawFields.TEXT)
+            text = text_elem.text if text_elem is not None else ""
 
             opinions_element = sentence.find(XMLRawFields.OPINIONS)
             if opinions_element is not None:
-                found_opinions = False
-                for opinion in opinions_element.findall(XMLFieldsFinal.OPINION):
-                    found_opinions = True
-                    target = opinion.get(XMLFieldsFinal.TARGET)
-                    category = opinion.get(XMLFieldsFinal.CATEGORY)
-                    polarity = opinion.get(XMLFieldsFinal.POLARITY)
-                    from_ = opinion.get(XMLFieldsFinal.FROM)
-                    to_ = opinion.get(XMLFieldsFinal.TO)
-                    intensity = opinion.get(XMLFieldsFinal.INTENSITY)
-                    opinion = opinion.get(XMLFieldsFinal.OPINION)
+                extracted_opinions = opinions_element.findall(
+                    XMLFieldsFinal.OPINION
+                ) or opinions_element.findall(XMLRawFields.OPINION)
 
+                if not extracted_opinions:
+                    print(f"Extracted empty list of opinions for {text=}")
+                    continue
+
+                for opinion in extracted_opinions:
                     data.append(
                         XMLModelFinal(
                             review_id=review_id,
                             sentence_id=sentence_id,
                             text=text,
-                            target=target,
-                            category=category,
-                            polarity=polarity,
-                            opinion=opinion,
-                            from_=from_,
-                            to=to_,
-                            intensity=intensity,
-                        )
-                    )
-                if not found_opinions and text:
-                    # If <Opinions> tag exists but has no <Opinion> children
-                    data.append(
-                        XMLModelFinal(
-                            review_id=review_id, sentence_id=sentence_id, text=text
+                            target=opinion.get(XMLFieldsFinal.TARGET),
+                            category=opinion.get(XMLFieldsFinal.CATEGORY),
+                            polarity=opinion.get(XMLFieldsFinal.POLARITY),
+                            opinion=opinion.get(XMLFieldsFinal.OPINION),
+                            from_=opinion.get(XMLFieldsFinal.FROM),
+                            to=opinion.get(XMLFieldsFinal.TO),
+                            intensity=opinion.get(XMLFieldsFinal.INTENSITY),
                         )
                     )
             else:
@@ -76,8 +74,7 @@ def parse_xml_file_to_dataframe(file_path: str) -> pd.DataFrame:
                     )
                 )
 
-    df = pd.DataFrame([d.dict() for d in data])
-    return df
+    return pd.DataFrame([d.dict() for d in data])
 
 
 def convert_df_to_xml(df: pd.DataFrame, output_file_path: str) -> None:
