@@ -18,9 +18,6 @@ def parse_xml_file_to_dataframe(
         file_path (str): Path to the XML file.
         encoding (str): File encoding (default: "utf-8").
     """
-    with open(file_path, "r", encoding=encoding) as f:
-        tree = ET.parse(f)
-    root = tree.getroot()
     try:
         with open(file_path, "r", encoding=encoding) as f:
             tree = ET.parse(f)
