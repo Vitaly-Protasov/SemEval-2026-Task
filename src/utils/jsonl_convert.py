@@ -22,7 +22,7 @@ def convert_df_to_jsonl(
             opinion = row.opinion.replace("???", "")
 
             va = sep_intensity.join(
-                [i.split()[0] for i in row.intensity.split(sep_intensity)]
+                [i.split(sep_std)[0] for i in row.intensity.split(sep_intensity)]
             )
 
             quads.append(
@@ -37,7 +37,7 @@ def convert_df_to_jsonl(
     data = SemEvalFormatLineModel(
         ID=ids,
         Text=texts,
-        Quadruplet=[q.dict() for q in quadriplets],
+        Quadruplet=[[q.dict() for q in q_inner_list] for q_inner_list in quadriplets],
     )
     final_df = pd.DataFrame(data.dict())
     final_df.to_json(jsonl_path, orient="records", lines=True, force_ascii=False)
