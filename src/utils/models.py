@@ -66,4 +66,4 @@ class SemEvalFormatLineFields(StrEnum):
 class SemEvalFormatLineModel(BaseModel):
     ID: list[str]
     Text: list[str]
-    Quadruplet: list[dict[str, str]]
+    Quadruplet: list[list[dict[str, str]]]
