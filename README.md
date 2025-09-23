@@ -31,7 +31,7 @@ merge_annotations(
 
 ## Convert pd.DataFrame to Jsonl based on the SemEval2026 Format
 ```python
-from src.utils.json_convert import convert_df_to_jsonl
+from src.utils.jsonl_convert import convert_df_to_jsonl
 
 convert_df_to_jsonl(
     df=df,
