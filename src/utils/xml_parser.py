@@ -45,7 +45,7 @@ def parse_xml_file_to_dataframe(
                 ) or opinions_element.findall(XMLRawFields.OPINION)
 
                 if not extracted_opinions:
-                    print(f"Extracted empty list of opinions for {text=}")
+                    # print(f"Extracted empty list of opinions for {text=}")
                     continue
 
                 for opinion in extracted_opinions:
