@@ -7,6 +7,30 @@ import re
 
 from src.utils.xml_parser import parse_xml_file_to_dataframe
 
+train_dict_paths = {
+    "annotations": [
+        "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_NL+IS.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_Oksana.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_Tkachenko.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train-Lapanicyna.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/train/Анастасия_train_utf8.xml",
+    ],
+    "merged": "/home/jovyan/airi/semeval-2026/annotation_quality/train/merged_df.xml",
+    "final": "/home/jovyan/airi/semeval-2026/annotation_quality/train/final_train.xml",
+}
+
+test_dict_paths = {
+    "annotations": [
+        "/home/jovyan/airi/semeval-2026/annotation_quality/test/Anastasia-test.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/test/Ксения-test-25.08.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/test/Мария-test.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/test/Наталья-test.xml",
+        "/home/jovyan/airi/semeval-2026/annotation_quality/test/Олеся-test.xml",
+    ],
+    "merged": "/home/jovyan/airi/semeval-2026/annotation_quality/test/test_merged.csv",
+    "final": "/home/jovyan/airi/semeval-2026/annotation_quality/test/test_final (1).xml",
+}
+
 
 def _parse(col: pd.Series) -> list[list]:
     """Parse stringified lists OR pass through real lists."""
@@ -128,30 +152,6 @@ def get_mean_res(stage_scores):
 
 
 def main_f1():
-    train_dict_paths = {
-        "annotations": [
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_NL+IS.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_Oksana.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_Tkachenko.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train-Lapanicyna.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/Анастасия_train_utf8.xml",
-        ],
-        "merged": "/home/jovyan/airi/semeval-2026/annotation_quality/train/merged_df.xml",
-        "final": "/home/jovyan/airi/semeval-2026/annotation_quality/train/final_train.xml",
-    }
-
-    test_dict_paths = {
-        "annotations": [
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Anastasia-test.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Ксения-test-25.08.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Мария-test.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Наталья-test.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Олеся-test.xml",
-        ],
-        "merged": "/home/jovyan/airi/semeval-2026/annotation_quality/test/test_merged.csv",
-        "final": "/home/jovyan/airi/semeval-2026/annotation_quality/test/test_final (1).xml",
-    }
-
     # train dataframes
     train_annotation_dfs = []
     for path in train_dict_paths["annotations"]:
@@ -224,30 +224,6 @@ def main_f1():
 
 
 def main_rmse():
-    train_dict_paths = {
-        "annotations": [
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_NL+IS.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_Oksana.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train_Tkachenko.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/16-07-2025-train-Lapanicyna.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/train/Анастасия_train_utf8.xml",
-        ],
-        "merged": "/home/jovyan/airi/semeval-2026/annotation_quality/train/merged_df.xml",
-        "final": "/home/jovyan/airi/semeval-2026/annotation_quality/train/final_train.xml",
-    }
-
-    test_dict_paths = {
-        "annotations": [
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Anastasia-test.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Ксения-test-25.08.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Мария-test.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Наталья-test.xml",
-            "/home/jovyan/airi/semeval-2026/annotation_quality/test/Олеся-test.xml",
-        ],
-        "merged": "/home/jovyan/airi/semeval-2026/annotation_quality/test/test_merged.csv",
-        "final": "/home/jovyan/airi/semeval-2026/annotation_quality/test/test_final (1).xml",
-    }
-
     # train dataframes
     train_annotation_dfs = []
     for path in train_dict_paths["annotations"]:
